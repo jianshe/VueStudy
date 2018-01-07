@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>v-bind 实例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style type="text/css">
+        .classA {
+            color: red;
+
+        }
+
+        .classB {
+            font-size: 20px;
+        }
+    </style>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+
+<body>
+    <h1>v-bind 实例</h1>
+    <div id="app">
+        <hr>
+        <p>
+            <img v-bind:src="imgSrc" alt="" width="200px;">
+        </p>
+        <p>
+            <a v-bind:href="hrefUrl" target="_blank">JSPang</a>
+        </p>
+        <hr>
+        <p v-bind:class="classChoose">1、绑定Class</p>
+        <p :class="isOk?classA:classB">2、绑定Class中的三元运算符</p>
+        <input type="checkbox" id="isOk" value="isTrue" v-model="isOk">
+        <label for="isOk">isOk={{isOk}}</label>
+        <p :class="[classA,classB]">3、绑定Class中的数组</p>
+        <p :class="{classA:isTrue}">4、绑定Class中的判断</p>
+        <input type="checkbox" id="isTrue" value="isTrue" v-model="isTrue">
+        <label for="isTrue">isTrue={{isTrue}}</label>
+        <p :style="{color:red,fontSize:fontSize}">5、绑定style</p>
+        <p :style="styleObject">6.对象绑定style</p>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                imgSrc: 'http://img.taopic.com/uploads/allimg/120727/201995-120HG1030762.jpg',
+                hrefUrl: 'http://jspang.com/2017/05/03/vuex/',
+                classChoose: 'classA',
+                isTrue: true,
+                isOk: true,
+                classA: 'classA',
+                classB: 'classB',
+                red: 'red',
+                fontSize: '24px',
+                styleObject: {
+                    color: 'green',
+                    fontSize: '30px'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
