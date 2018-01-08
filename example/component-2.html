@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>component-2 props Demo</title>
+</head>
+<body>
+    <h1>component-2 props Demo</h1>
+    <hr>
+    <div id="app">
+        <panda :here="place"></panda>
+        
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el:'#app',
+            data:{
+                message:'Hello World!',
+                place:'China'
+            },
+           components:{
+               "panda":{
+                   template:`<div style="color:red;">Panda from {{here}}.</div>`,
+                    props:['here']
+               }
+           }
+        });
+     
+    </script>
+</body>
+</html>
