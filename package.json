@@ -10,5 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jianshe",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vue-router": "^3.0.1"
+  }
 }

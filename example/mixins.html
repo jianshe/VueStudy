@@ -22,11 +22,11 @@
         })
 
 
-        var aaa={
-            created:function(){
-                console.log('我是外部被混入的');
-            }
-        }
+        // var aaa={
+        //     created:function(){
+        //         console.log('我是外部被混入的');
+        //     }
+        // }
 
         var app=new Vue({
             el:'#app',
@@ -35,8 +35,7 @@
             },
             created:function(){
                 console.log('我是原生的');
-            },
-            mixins:[aaa]
+            }
         })
     </script>
 </body>
