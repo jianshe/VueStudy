@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>watch 实例</title>
+</head>
+
+<body>
+    <div class="box-content" id="app">
+        <div v-if="isshow">
+            <div v-for="(item,index) in model">
+                <div class="col-md-9">
+                    <h6><label><a href="javascript:;">{{item}}</a></label></h6>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <p><button @click="app.add(2)">add</button></p>
+
+
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                model: [],
+                isshow: true
+            },
+            created() {
+                this.initData();
+            },
+            methods: {
+                initData() {
+                    var datas = ['aa', 'bb', 'cc'];
+                    if (datas) {
+                        this.model = datas;
+                        this.isshow = true;
+                    } else {
+                        this.isshow = false;
+                    }
+                },
+                add: function(num) {
+                    return this.model.push(num);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <title>vue and datables</title>
+</head>
+
+<body>
+    <div class="box-content" id="app">
+        <button v-on:click="changeDatas">改变数据</button>
+    </div>
+    <table id="example" class="display" width="100%"></table>
+
+    <script type="text/javascript">
+        var wageSummaryTable;
+        var app = new Vue({
+            el: '#app',
+            data: {
+                dataSet: [
+                    ["Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800"],
+                    ["Garrett Winters", "Accountant", "Tokyo", "8422", "2011/07/25", "$170,750"],
+                    ["Ashton Cox", "Junior Technical Author", "San Francisco", "1562", "2009/01/12", "$86,000"],
+                    ["Cedric Kelly", "Senior Javascript Developer", "Edinburgh", "6224", "2012/03/29", "$433,060"],
+                    ["Airi Satou", "Accountant", "Tokyo", "5407", "2008/11/28", "$162,700"],
+                    ["Brielle Williamson", "Integration Specialist", "New York", "4804", "2012/12/02", "$372,000"],
+                    ["Herrod Chandler", "Sales Assistant", "San Francisco", "9608", "2012/08/06", "$137,500"],
+                    ["Rhona Davidson", "Integration Specialist", "Tokyo", "6200", "2010/10/14", "$327,900"],
+                    ["Colleen Hurst", "Javascript Developer", "San Francisco", "2360", "2009/09/15", "$205,500"],
+                    ["Sonya Frost", "Software Engineer", "Edinburgh", "1667", "2008/12/13", "$103,600"],
+                    ["Jena Gaines", "Office Manager", "London", "3814", "2008/12/19", "$90,560"],
+                    ["Quinn Flynn", "Support Lead", "Edinburgh", "9497", "2013/03/03", "$342,000"],
+                    ["Charde Marshall", "Regional Director", "San Francisco", "6741", "2008/10/16", "$470,600"],
+                    ["Haley Kennedy", "Senior Marketing Designer", "London", "3597", "2012/12/18", "$313,500"]
+                ]
+            },
+            created() {
+                this.initData();
+            },
+            methods: {
+                initData() {
+                    wageSummaryTable = $('#example').DataTable({
+                        data: this.dataSet,
+                        columns: [{
+                            title: "Name"
+                        }, {
+                            title: "Position"
+                        }, {
+                            title: "Office"
+                        }, {
+                            title: "Extn."
+                        }, {
+                            title: "Start date"
+                        }, {
+                            title: "Salary"
+                        }]
+                    });
+                },
+                changeDatas() {
+                    this.dataSet = [
+                        ["a", "b", "c", "d", "e", "f"]
+                    ];
+                    wageSummaryTable = $('#example').dataTable({
+                        "destroy": true,
+                        data: this.dataSet
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

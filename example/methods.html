@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="../assets/js/vue.js"></script>
     <title>Methods Option Demo</title>
 </head>
+
 <body>
     <h1>Methods Option Demo</h1>
     <hr>
     <div id="app">
-       {{a}}
-       <p><button @click="add(2)">add</button></p>
-       <p><btn @click.native="add(2)"></btn></p>
+        <p><button @click="add()">add</button></p>
+        <div v-for="(item,index) in model">
+            <h6><label><a href="javascript:;">{{item}}</a></label></h6>
+        </div>
     </div>
-    <button onclick="app.add(3)">外部访问构造器里的方法</button>
 
     <script type="text/javascript">
-       var btn={
-           template:'<button>外部组件</button>'
-       }
-
-
-        var app=new Vue({
-            el:'#app',
-            data:{
-                a:1
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: '',
+                model: []
             },
-            methods:{
-                add:function(num){
-                    
-                    return this.a+=num;
-                 }
-            },
-            components:{
-                "btn":btn
+            methods: {
+                add: function() {
+                    this.model.push("dddddd");
+                }
             }
-        })
+        });
     </script>
 </body>
+
 </html>
