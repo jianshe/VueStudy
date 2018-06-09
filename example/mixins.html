@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="../assets/js/vue.js"></script>
     <title>Mixin Optin Demo</title>
 </head>
+
 <body>
-    <h1>Mixin Optin Demo</h1>
+    <h1>Mixin Option Demo</h1>
     <hr>
     <div id="app">
         {{ message }}
@@ -14,30 +16,30 @@
     </div>
 
     <script type="text/javascript">
-        //全局混入
-        Vue.mixin({
-            created:function(){
-                console.log('我是全局被混入的');
-            }
-        })
-
-
-        var aaa={
-            created:function(){
-                console.log('我是外部被混入的');
+        var mixin = {
+            data: function() {
+                return {
+                    message: 'hello',
+                    foo: 'abc'
+                }
             }
         }
 
-        var app=new Vue({
-            el:'#app',
-            data:{
-                message:'hello Vue!'
+        new Vue({
+            mixins: [mixin],
+            el: '#app',
+            data: function() {
+                return {
+                    message: 'goodbye',
+                    bar: 'def'
+                }
             },
-            created:function(){
-                console.log('我是原生的');
-            },
-            mixins:[aaa]
+            created: function() {
+                console.log(this.$data)
+                    // => { message: "goodbye", foo: "abc", bar: "def" }
+            }
         })
     </script>
 </body>
+
 </html>

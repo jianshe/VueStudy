@@ -11,7 +11,12 @@
   },
   "author": "jianshe",
   "license": "ISC",
+<<<<<<< HEAD
   "dependencies": {
     "live-server": "^1.2.0"
+=======
+  "devDependencies": {
+    "vue-router": "^3.0.1"
+>>>>>>> a55601896fef4f4c4d07da834bbdefa11736a347
   }
 }
