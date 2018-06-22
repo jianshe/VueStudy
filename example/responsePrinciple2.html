@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue双向绑定原理</title>
+    <style type="text/css">
+        #app {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="name">{{name}}</h1>
+    <script type="text/javascript">
+        // var Book = {}
+        // var name = '';
+        // Object.defineProperty(Book, 'name', {
+        //     set: function(value) {
+        //         name = value;
+        //         console.log('你取了一个书名叫做：' + value);
+        //     },
+        //     get: function() {
+        //         return '《' + name + '》';
+        //     }
+        // })
+        // Book.name = 'vue权威指南'; //你取了一个书名叫做vue权威指南
+        // console.log(Book.name);
+        //实现过程：实现数据的双向绑定，首先要对数据进行劫持监听，所以我们需要设置一个监控器Observer,用来监听所有属性。如果数据发生变化了，就需要告诉订阅者Watcher看是否需要更新。因为订阅者
+        //有很多个，所以我们需要有一个消息订阅器Dep来专门收集这些订阅者。然后在监听器Observer和订阅者Watcher之间进行统一管理。接着，我们还需要有一个指令解析器Compile,对每个节点元素进行扫描和
+        //解析，将相关指令对应初始化成一个订阅者watcher，并替换模板数据或者绑定相应的函数，此时当订阅者Watcher接收到相应属性的变化，就会执行相应的更新函数，从而更新视图。
+
+        //步骤：1.实现一个监听器Observer，用来劫持并监听所有属性，如果有变动的，就通知订阅者。
+        // 2.实现一个订阅者Watcher,可以收到属性的变化通知并执行相应的函数，从而更新视图。
+        //3.实现一个解析器Compile，可以扫描和解析每个节点的相关指令，并根据初始化模板数据以及初始化相应的订阅器。
+        //一、实现一个Observer
+        function defineReactive(data, key, val) {
+            observe(val); // 递归遍历所有子属性
+            var dep = new Dep();
+            Object.defineProperty(data, key, {
+                enumerable: true, //属性是否可以被枚举（使用for...in或Object.keys()）。设置为true可以被枚举；设置为false，不能被枚举。默认为false
+                configurable: true, //是否可以删除目标属性或是否可以再次修改属性的特性，设置为true可以被删除或可以重新设置特性；设置为false，不能被可以被删除或不可以重新设置特性。默认为false。
+                get: function() {
+                    if (Dep.target) { // 判断是否需要添加订阅者
+                        dep.addSub(Dep.target); // 在这里添加一个订阅者
+                    }
+                    return val;
+                },
+                set: function(newVal) {
+                    if (val === newVal) {
+                        return;
+                    }
+                    val = newVal;
+                    console.log('属性' + key + '已经被监听了，现在值为：“' + newVal.toString() + '”');
+                    dep.notify(); // 如果数据变化，通知所有订阅者
+                }
+            });
+        }
+        Dep.target = null;
+
+        function observe(data) {
+            if (!data || typeof data !== 'object') {
+                return;
+            }
+            Object.keys(data).forEach(function(key) {
+                defineReactive(data, key, data[key]);
+            });
+        };
+
+        //步骤二、添加一个消息订阅器Dep
+        function Dep() {
+            this.subs = [];
+        }
+        Dep.prototype = {
+            addSub: function(sub) {
+                this.subs.push(sub);
+            },
+            notify: function() {
+                this.subs.forEach(function(sub) {
+                    sub.update();
+                });
+            }
+        };
+
+        //步骤三、实现watcher
+        function Watcher(vm, exp, cb) {
+            this.cb = cb;
+            this.vm = vm;
+            this.exp = exp;
+            this.value = this.get(); // 将自己添加到订阅器的操作
+        }
+        Watcher.prototype = {
+            update: function() {
+                this.run();
+            },
+            run: function() {
+                var value = this.vm.data[this.exp];
+                var oldVal = this.value;
+                if (value !== oldVal) {
+                    this.value = value;
+                    this.cb.call(this.vm, value, oldVal);
+                }
+            },
+            get: function() {
+                Dep.target = this; // 缓存自己
+                var value = this.vm.data[this.exp] // 强制执行监听器里的get函数
+                Dep.target = null; // 释放自己
+                return value;
+            }
+        };
+
+        function SelfVue(data, el, exp) {
+            var self = this;
+            this.data = data;
+
+            Object.keys(data).forEach(function(key) {
+                self.proxyKeys(key);
+            });
+
+            observe(data);
+            el.innerHTML = this.data[exp]; // 初始化模板数据的值
+            new Watcher(this, exp, function(value) {
+                el.innerHTML = value;
+            });
+            return this;
+        }
+
+        SelfVue.prototype = {
+            proxyKeys: function(key) {
+                var self = this;
+                Object.defineProperty(this, key, {
+                    enumerable: false,
+                    configurable: true,
+                    get: function proxyGetter() {
+                        return self.data[key];
+                    },
+                    set: function proxySetter(newVal) {
+                        self.data[key] = newVal;
+                    }
+                });
+            }
+        }
+
+        var ele = document.querySelector('#name');
+        var selfVue = new SelfVue({
+            name: 'hello world'
+        }, ele, 'name');
+
+        window.setTimeout(function() {
+            console.log('name值改变了');
+            selfVue.name = 'canfoo';
+        }, 2000);
+    </script>
+</body>
+
+</html>

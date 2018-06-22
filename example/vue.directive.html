@@ -23,14 +23,13 @@
     </div>
 
     <script type="text/javascript">
-
         function unbind() {
             app.$destroy();
         }
 
         //自定义指令
         Vue.directive('jspang', {
-            bind: function (el, binding, vnode) {//被绑定
+            bind: function(el, binding, vnode) { //被绑定
                 // var s = JSON.stringify;
                 // el.innerHTML =
                 //     'name:' + s(binding.name) + '<br>' +
@@ -39,16 +38,16 @@
                 el.style = 'color:' + binding.value;
                 console.log('1 - bind');
             },
-            inserted: function () {//绑定到节点
+            inserted: function() { //绑定到节点
                 console.log('2 - inserted');
             },
-            update: function () {//组件更新
+            update: function() { //组件更新
                 console.log('3 - update');
             },
-            componentUpdated: function () {//组件更新完成
+            componentUpdated: function() { //组件更新完成
                 console.log('4 - componentUpdated');
             },
-            unbind: function () {//解绑
+            unbind: function() { //解绑
                 console.log('5 - unbind');
             }
 
@@ -61,7 +60,7 @@
                 num: 10
             },
             methods: {
-                jia: function () {
+                jia: function() {
                     this.num++;
                 }
             }
