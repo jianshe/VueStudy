@@ -28,4 +28,8 @@
 9.混合mixins和继承extends
     。extends和mixins，都可以理解为继承，mixins接收对象数组（可理解为多继承），extends接收的是对象或函数（可理解为单继承）
     。extends触发的优先级更高，相对于是队列push(extend,minxin1,minxin2,本身的钩子函数)
+10.v-text和v-html的区别
+    。v-text是用于操作纯文本，当绑定的数据对象的值发生改变，插值处的内容也会随之更新。注意：此处为单向绑定，数据对象上的值改变，插值会发生变化；但是当插值发生变化并不会影响数据对象的值。
+    。v-html用于输出html,它与v-text区别在于v-text输出的是纯文本，浏览器不会对其再进行html解析，但v-html会将其当html标签解析后输出。
+    
 
