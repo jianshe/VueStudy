@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Modal实例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show =true">open</button>
+        <modal v-if="show" width="300px" :callback="close">
+            <!--替换modal组件中的<slot name="modal-header"></slot>插槽-->
+            <div slot="modal-header" class="modal-header">Title</div>
+            <!--替换modal组件中的<slot name="modal-body"></slot>插槽-->
+            <div slot="modal-body" class="modal-body">
+                <div class="inner">
+                    Content
+                </div>
+            </div>
+
+        </modal>
+    </div>
+    <script id="modalTpl" type="x-template">
+        <div role="dialog">
+            <div role="document" v-bind:style="{width:optionlWidth}">
+                <div class="modal-content">
+                    <slot name="modal-header">
+                        <div class="modal-header">
+                            <button type="button" class="close" @click="close">
+                                <span>&times;</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <slot name="title">{{title}}</slot>
+                            </h4>
+                        </div>
+                    </slot>
+
+                    <slot name="modal-body">
+                        <div class="modal-body"></div>
+                    </slot>
+
+                    <slot name="modal-footer">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" @click="close">取消</button>
+                            <button type="button" class="btn btn-primary" @click="callback">确定</button>
+                        </div>
+                    </slot>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        //注册Modal组件
+        Vue.component('modal', {
+            template: '#modalTpl', //获取模版中的HTML结构
+            props: {
+                title: { //Modal标题
+                    type: String,
+                    default: ''
+                },
+                show: { //控制Modal是否显示
+                    required: true,
+                    type: Boolean,
+                    twoWay: false
+                },
+                callback: { //点击确定按钮的回调函数
+                    type: Function,
+                    default: function() {}
+                }
+
+            },
+            computed: { //计算属性
+                optionlWidth() { //处理props的width属性
+                    if (this.width === null) {
+                        return null;
+                    } else if (Number.isInteger(this.width)) {
+                        return this.width + 'px';
+                    }
+                    return this.width;
+                }
+
+            },
+            watch: {
+                show(val) { //show值变化时调用该函数
+                    var el = this.$el;
+                    if (val) {
+                        el.style.display = 'block'; //show值为true时，显示根元素
+                    } else {
+                        el.style.display = 'none'; //show值为false时，隐藏根元素
+                    }
+                }
+            },
+            methods: {
+                close() {
+                    this.show = false;
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                show: false
+            },
+            methods: {
+                close: function() {
+                    alert('save');
+                    this.show = false;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
