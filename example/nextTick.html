@@ -4,35 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="../assets/js/vue.js"></script>
-    <title>NextTick Demo</title>
+    <title>NextTick Demo-异步更新队列</title>
 </head>
 
 <body>
 
     <div id="app">
-        <ul>
+        {{msg}}
+        <br/>
+        <example></example>
+        <!-- <ul>
             <li v-for="item in list">{{item}}
         </ul>
-        <p><button @click="push()">更新数据</button></p>
+        <p>
+            <button @click="push()">更新数据</button>
+        </p> -->
+
     </div>
 
     <script type="text/javascript">
-        var app = new Vue({
-            el: '#app',
-            data: function() {
+        Vue.component('example', {
+            template: '<span>{{msg}}<button @click="updateMessage">updateMessage</button></span>',
+            data: function () {
                 return {
-                    list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    msg: 'not updated'
                 }
             },
-            methods: {
-                push: function() {
-                    this.list.push(11);
-                    this.$nextTick(function() { //当dom发生变化，更新后执行的回调。
-                        alert('v-for渲染已经完成')
-                    })
+            methods:{
+                updateMessage:function(){
+                    this.msg = 'updated';
+                    this.$nextTick = function(){
+                        console.log(this.$el.textContent);
+                    }
                 }
             }
-        })
+        });
+
+        var app = new Vue({
+            el:"#app",
+            data:function(){
+                return {
+                    msg:"原始数值"
+                }
+            }
+        });
+
+
+
+        // var app = new Vue({
+        //     el: '#app',
+        //     data: function () {
+        //         return {
+        //             list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        //         }
+        //     },
+        //     methods: {
+        //         push: function () {
+        //             this.list.push(11);
+        //             this.$nextTick(function () { //当dom发生变化，更新后执行的回调。
+        //                 alert('v-for渲染已经完成')
+        //             })
+        //         }
+        //     }
+        // })
     </script>
 </body>
 
