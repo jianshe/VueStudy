@@ -17,28 +17,32 @@
         <br>
         <button v-on:click="addScore">加分</button>
         <button @click="reduceScore">减分</button><br>
-        <input type="text" v-on:keyup.13="onEnter" v-model="otherScore">
+        <button v-on:click="sayForm ('from param')">Say</button>
+        <input type="text" v-on:keyup.13="onEnter" v-model="score">
     </div>
     <script type="text/javascript">
         var app = new Vue({
             el: '#app',
             data: {
-               score:0,
-               otherScore:0
+                score: 0,
+                otherScore: 0,
+                msg: 'Hello Vue.js'
             },
-            methods:{
-                addScore:function(){
+            methods: {
+                addScore: function() {
                     this.score++;
                 },
-                reduceScore:function(){
+                reduceScore: function() {
                     this.score--;
                 },
-                onEnter:function(){
-                    this.score = this.score+parseInt(this.otherScore)
+                onEnter: function() {
+                    this.score = this.score + parseInt(this.otherScore)
+                },
+                sayForm: function(from) {
+                    alert(this.msg + '' + from);
                 }
             }
         });
-       
     </script>
 </body>
 
