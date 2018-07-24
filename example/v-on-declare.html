@@ -17,9 +17,14 @@
             <button v-on:click="saySelf('button click')">button</button>
             <button v-on:click.stop="saySelf('just button click')">button</button>
         </div>
+        <div>{{HTML}}</div>
+        <div v-HTML="HTML"></div>
     </div>
     <script type="text/javascript">
         var app = new Vue({
+            data: {
+                HTML: '测试'
+            },
             el: '#app',
             methods: {
                 saySelf(msg) {

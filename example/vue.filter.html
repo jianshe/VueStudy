@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>vue.filter</title>
+</head>
+
+<body>
+    <h1>Vue.filter</h1>
+    <div id="app">
+        {{message |capitalize}}<br>
+        <input type="text" v-model="message"><br>
+    </div>
+
+    <script type="text/javascript">
+        Vue.filter('capitalize', function(value) {
+            if (!value) return '';
+            value = value.toString();
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello Vue.js'
+            }
+            // filters: {
+            //     capitalize: function(value) {
+            //         if (!value) return '';
+            //         value = value.toString();
+            //         return value.charAt(0).toUpperCase() + value.slice(1);
+            //     }
+            // }
+        });
+    </script>
+</body>
+
+</html>
