@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>Menu-tab</title>
+    <style type="text/css">
+        .dynamic-component-demo-tab-button {
+            padding: 6px 10px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background: #f0f0f0;
+            margin-bottom: -1px;
+            margin-right: -1px;
+        }
+        
+        .dynamic-component-demo-tab-button:hover {
+            background: #e0e0e0;
+        }
+        
+        .dynamic-component-demo-tab-button-active {
+            background: #e0e0e0;
+        }
+        
+        .dynamic-component-demo-tab {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Menu tab</h1>
+    <hr>
+    <div id="dynamic-component-demo" class="demo">
+        <button class="dynamic-component-demo-tab-button" v-for="(tab,index) in tabs" :class="currentTab==tab.name?'dynamic-component-demo-tab-button-active':''" @click="tabChange(tab.name)">
+            {{tab.name}}
+        </button>
+        <div class="dynamic-component-demo-tab">
+            <!-- 组件会在 `currentTabComponent` 改变时改变 -->
+            <!-- <component v-bind:is="currentTabComponent"></component> -->
+            <keep-alive>
+                <component :is="currentTabComponent"></component>
+            </keep-alive>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        Vue.component('tab-home', {
+            template: '<div>Home component</div>'
+        });
+        Vue.component('tab-posts', {
+            template: '<div>Posts component</div>'
+        });
+        Vue.component('tab-archive', {
+            template: '<div>Archive component</div>'
+        });
+        new Vue({
+            el: '#dynamic-component-demo',
+            data: {
+                currentTab: 'Home',
+                tabs: [{
+                    name: "Home"
+                }, {
+                    name: "Posts"
+                }, {
+                    name: "Archive"
+                }]
+            },
+            computed: {
+                currentTabComponent: function() {
+                    return 'tab-' + this.currentTab.toLowerCase()
+                }
+            },
+            methods: {
+                tabChange: function(tab) {
+                    this.currentTab = tab;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
